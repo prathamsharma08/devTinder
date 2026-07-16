@@ -4,19 +4,20 @@ const app=express();
 //     res.send("Namste Pratham");
 // })
 
-
-app.use("/",(req,res)=>{
-    res.send("hello hello");
+app.use("/user",(req,res,next)=>{
+    next();
+    
+},(req,res,next)=>{
+    // res.send("response2");
+    // res.send("response3");
+    next();
+    res.send("response2");
+    
+},
+(req,res,next)=>{
+     res.send("response3");
+    next();
 })
-
-app.use("/hi",(req,res)=>{
-    res.send("hello hello");
-})
-
-app.use("/test",(req,res)=>{
-    res.send("hello");
-})
-
-app.listen(3000,()=>{
-    console.log("Server running");
+app.listen(3000,(req,res)=>{
+    console.log(`listening at $3000`);
 })
