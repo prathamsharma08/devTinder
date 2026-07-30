@@ -4,16 +4,41 @@ require("./src/config/database");
 const User=require("./src/models/user")
 const app=express();
 const connectDB=require("./src/config/database")
-app.post("/signup",async (req,res)=>{
-    const userObj=new User({
-        firstName:"Pratham",
-        lastName:"Sharma",
-        emailId:"ps467@gmail.com",
-        Password:"1234"
+app.use(express.json())
+// app.post("/signup",async (req,res)=>{
+    //console.log(req.body);})
+    // const userObj=new User({
+    //     firstName:"Pratham",
+    //     lastName:"Sharma",
+    //     emailId:"ps467@gmail.com",
+    //     Password:"1234"
+    // })
+    app.get('/getuser',async (req,res)=>{
+         const emailId=req.body.emailId;
+        try{
+   // const user=await User.find({emailId:emailId});
+    const user=await User.find({});
+    res.send(user)
+}
+
+catch(err){
+    res.status(500).end("error")
+}
     })
-    await userObj.save();
-    res.send("User Added Successfully")
+    app.post('/update',async(req,res)=>{
+    const emailId=req.body.emailId;
+    try{
+    const user=await User.findOneAndUpdate({emailId:emailId},{$set:{
+        emailId:"pratham05@gmail.com"
+    }})
+    await user.save()
+    res.send("saved")}
+    catch(err){
+        res.status(500).send("error");
+    }
 })
+
+    
 // app.use("/hi",(req,res)=>{
 //     res.send("Namste Pratham");
 // }
@@ -50,3 +75,6 @@ connectDB().then(()=>{
 .catch((err)=>{
     console.log("database cannot be connected")
 })
+
+// javascript object doesnot have a string in key whereas json hs sting in both key and value
+// use middleware whne we we are doing req.body as or code udnerstands javascript object only
