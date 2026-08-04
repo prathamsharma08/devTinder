@@ -14,7 +14,7 @@ app.use(express.json())
     //     Password:"1234"
     // })
     app.get('/getuser',async (req,res)=>{
-         const emailId=req.body.emailId;
+         //const emailId=req.body.emailId;
         try{
    // const user=await User.find({emailId:emailId});
     const user=await User.find({});
@@ -37,7 +37,16 @@ catch(err){
         res.status(500).send("error");
     }
 })
-
+app.delete("/user",async(req,res)=>{
+    const userId=req.body.userId;
+    try{
+        const user=await User.findByIdAndDelete(userId);
+        res.send("user deleted successfully");
+    }
+    catch(err){
+        res.status(400).send("something went wrong");
+    }
+})
     
 // app.use("/hi",(req,res)=>{
 //     res.send("Namste Pratham");
@@ -75,6 +84,23 @@ connectDB().then(()=>{
 .catch((err)=>{
     console.log("database cannot be connected")
 })
+app.patch("/user",async(req,res)=>{
+    const userId=req.body.userId;
+    const data=req.body;
+    try{
+        const user=await User.findByIdAndUpdate({_id:userId},data);
+        res.send("User Updated Sucessfully");
+    }
+    catch(err){
+        res.status(400).send("Something went wrong");
+    }
 
+
+
+})
 // javascript object doesnot have a string in key whereas json hs sting in both key and value
 // use middleware whne we we are doing req.body as or code udnerstands javascript object only
+// patch and put diff
+// explore mongoose documentation
+// options in model.findoneandupdate methor
+// update user with emailid
