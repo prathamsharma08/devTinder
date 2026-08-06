@@ -97,7 +97,7 @@ app.patch("/user",async(req,res)=>{
 
 
 
-})
+}) 
 // javascript object doesnot have a string in key whereas json hs sting in both key and value
 // use middleware whne we we are doing req.body as or code udnerstands javascript object only
 // patch and put diff
